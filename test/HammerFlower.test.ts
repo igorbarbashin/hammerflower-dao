@@ -10,9 +10,17 @@ describe("HammerFlower", function () {
     await hammerFlower.deployed();
 
     expect(await hammerFlower.symbol()).to.equal("FLOWER");
-    await hammerFlower._mint();
+    // expect().to.be.revertedWith("Not enough value");
+    await hammerFlower._mint({
+      value: ethers.utils.parseEther("0.5"),
+    });
 
     expect(await hammerFlower.balanceOf(owner.address)).to.equal(1);
+
+    expect(await hammerFlower.powerBalanceOf(owner.address)).to.equal(
+      ethers.utils.parseEther("5")
+    );
+
     // Should mint with a payable mint function
     // Need to be able to check the sum power
     // Transfer token reduces power
