@@ -1,7 +1,9 @@
 {
   "name": "hardhat-project",
   "scripts": {
-    "test": "hardhat test"
+    "test": "hardhat test",
+    "compile": "hardhat compile",
+    "hardhat": "hardhat"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.5",

@@ -11,7 +11,7 @@ contract HammerFlower is ERC721 {
   using Counters for Counters.Counter;
   Counters.Counter private _tokenIds;
 
-  // A struct to store the flower power
+  // TODO: Can be optimized if using part of ID for the power
   mapping (uint256 => uint256) public powers;
   mapping (address => uint256) public powerBalances;
   
@@ -19,7 +19,7 @@ contract HammerFlower is ERC721 {
   constructor() ERC721("HammerFlower", "FLOWER") {
   }
 
-  function _mint() public payable returns (uint256) {
+  function mint() public payable returns (uint256) {
     // require(msg.value >= 0.1 ether, "Not enough value");
     _tokenIds.increment();
     uint256 newTokenId = _tokenIds.current();
@@ -35,5 +35,16 @@ contract HammerFlower is ERC721 {
 
   function powerBalanceOf(address account) external view returns (uint256) {
     return powerBalances[account];
+  }
+
+  function myTransferFrom(address from, address to, uint256 tokenId) external {
+    require(msg.sender == from, "Sender is not the owner");
+    require(to != address(0), "Missing recipient");
+
+    uint256 power = powers[tokenId];
+    powerBalances[from] -= power;
+    powerBalances[to] += power;
+    super.safeTransferFrom(from, to, tokenId);
+
   }
 }
