@@ -21,7 +21,7 @@ describe("HammerFlower", function () {
       ethers.utils.parseEther("5")
     );
 
-    await hammerFlower.myTransferFrom(owner.address, addr1.address, 1);
+    await hammerFlower.myTransferFrom(owner.address, addr1.address, 1000001);
 
     expect(await hammerFlower.powerBalanceOf(owner.address)).to.equal(
       ethers.utils.parseEther("0")
