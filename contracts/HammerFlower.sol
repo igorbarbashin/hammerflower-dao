@@ -70,6 +70,6 @@ contract HammerFlower is ERC721 {
     uint256 power = powers[tokenId];
     powerBalances[from] -= power;
     powerBalances[to] += power;
-    super.safeTransferFrom(from, to, tokenId);
+    super._transfer(from, to, tokenId);
   }
 }
