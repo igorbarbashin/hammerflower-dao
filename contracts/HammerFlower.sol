@@ -28,10 +28,10 @@ contract HammerFlower is ERC721 {
 
     uint256 newTokenId;
 
-    if (msg.value >= 0.1 ether) {
+    if (msg.value >= 0.1 ether && msg.value < 1 ether ) {
       _commonCounter.increment();
       newTokenId = _commonCounter.current().add(1000000);
-    } else if (msg.value >= 1 ether) {
+    } else if (msg.value >= 1 ether && msg.value < 10 ether ) {
       _rareCounter.increment();
       newTokenId = _rareCounter.current().add(2000000);
     } else if (msg.value >= 10 ether) {
