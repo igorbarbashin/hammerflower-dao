@@ -1,4 +1,3 @@
-// contracts/MyNFT.sol
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
@@ -17,21 +16,20 @@ contract HammerFlower is ERC721 {
   Counters.Counter private _epicCounter;
 
   // TODO: Can be optimized if encode the powers and tier in the same uint256
-  mapping (uint256 => uint256) public powers;
-  mapping (address => uint256) public powerBalances;
+  mapping(uint256 => uint256) public powers;
+  mapping(address => uint256) public powerBalances;
 
-  constructor() ERC721("HammerFlower", "FLOWER") {
-  }
+  constructor() ERC721("HammerFlower", "FLOWER") {}
 
   function mint() public payable returns (uint256) {
     require(msg.value >= 0.1 ether, "Not enough value");
 
     uint256 newTokenId;
 
-    if (msg.value >= 0.1 ether && msg.value < 1 ether ) {
+    if (msg.value >= 0.1 ether && msg.value < 1 ether) {
       _commonCounter.increment();
       newTokenId = _commonCounter.current().add(1000000);
-    } else if (msg.value >= 1 ether && msg.value < 10 ether ) {
+    } else if (msg.value >= 1 ether && msg.value < 10 ether) {
       _rareCounter.increment();
       newTokenId = _rareCounter.current().add(2000000);
     } else if (msg.value >= 10 ether) {
@@ -48,11 +46,17 @@ contract HammerFlower is ERC721 {
     return newTokenId;
   }
 
+  // TODO: This method will be called by an ERC20 wrapper called FlowerPower
   function powerBalanceOf(address account) external view returns (uint256) {
     return powerBalances[account];
   }
 
-  function myTransferFrom(address from, address to, uint256 tokenId) external {
+  // TODO: make it override the standard function
+  function myTransferFrom(
+    address from,
+    address to,
+    uint256 tokenId
+  ) external {
     require(msg.sender == from, "Sender is not the owner");
     require(to != address(0), "Missing recipient");
 
@@ -60,6 +64,5 @@ contract HammerFlower is ERC721 {
     powerBalances[from] -= power;
     powerBalances[to] += power;
     super.safeTransferFrom(from, to, tokenId);
-
   }
 }
