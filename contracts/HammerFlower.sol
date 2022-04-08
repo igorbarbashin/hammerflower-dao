@@ -15,6 +15,8 @@ contract HammerFlower is ERC721 {
   Counters.Counter private _rareCounter;
   Counters.Counter private _epicCounter;
 
+  uint256 private _totalPowerSupply;
+
   // TODO: Can be optimized if encode the powers and tier in the same uint256
   mapping(uint256 => uint256) public powers;
   mapping(address => uint256) public powerBalances;
@@ -39,6 +41,7 @@ contract HammerFlower is ERC721 {
     powers[newTokenId] = msg.value;
     uint256 power = msg.value.mul(10);
     powers[newTokenId] = power;
+    _totalPowerSupply = _totalPowerSupply.add(power);
     powerBalances[msg.sender] += power;
     super._mint(msg.sender, newTokenId);
     console.log("New token ID", newTokenId);
@@ -49,6 +52,10 @@ contract HammerFlower is ERC721 {
   // TODO: This method will be called by an ERC20 wrapper called FlowerPower
   function powerBalanceOf(address account) external view returns (uint256) {
     return powerBalances[account];
+  }
+
+  function totalPowerSupply() external view returns (uint256) {
+    return _totalPowerSupply;
   }
 
   // TODO: make it override the standard function
