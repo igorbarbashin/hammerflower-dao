@@ -43,6 +43,14 @@ describe("HammerFlower", function () {
       ethers.utils.parseEther("3")
     );
 
+    await hammerFlower.mint({
+      value: ethers.utils.parseEther("5"),
+    });
+
+    expect(await hammerFlower.powerBalanceOf(owner.address)).to.equal(
+      ethers.utils.parseEther("53")
+    );
+
     // Should mint with a payable mint function
     // Need to be able to check the sum power
     // Transfer token reduces power
