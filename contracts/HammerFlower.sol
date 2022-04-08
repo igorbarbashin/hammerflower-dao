@@ -59,11 +59,11 @@ contract HammerFlower is ERC721 {
   }
 
   // TODO: make it override the standard function
-  function myTransferFrom(
+  function _transfer(
     address from,
     address to,
     uint256 tokenId
-  ) external {
+  ) internal virtual override {
     require(msg.sender == from, "Sender is not the owner");
     require(to != address(0), "Missing recipient");
 

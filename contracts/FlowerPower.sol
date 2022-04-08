@@ -7,14 +7,15 @@ It has to be non-transferable and non-mintable
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 import "./IHammerFlower.sol";
 
-abstract contract FlowerPower is IERC20, IERC20Metadata {
+contract FlowerPower is ERC20 {
   IHammerFlower internal _hammerFlowerAddress;
 
-  constructor(address hammerFlowerAddress) {
+  constructor(address hammerFlowerAddress) ERC20("FlowerPower", "FPOWER") {
     _hammerFlowerAddress = IHammerFlower(hammerFlowerAddress);
   }
 
