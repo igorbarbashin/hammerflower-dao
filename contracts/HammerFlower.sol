@@ -4,12 +4,15 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 import "hardhat/console.sol";
 
-contract HammerFlower is ERC721 {
+contract HammerFlower is ERC721, Ownable {
   using Counters for Counters.Counter;
   using SafeMath for uint256;
+
+  string private _baseURIextended;
 
   Counters.Counter private _commonCounter;
   Counters.Counter private _rareCounter;
@@ -71,5 +74,13 @@ contract HammerFlower is ERC721 {
     powerBalances[from] -= power;
     powerBalances[to] += power;
     super._transfer(from, to, tokenId);
+  }
+
+  function setBaseURI(string memory baseURI_) external onlyOwner {
+    _baseURIextended = baseURI_;
+  }
+
+  function _baseURI() internal view virtual override returns (string memory) {
+    return _baseURIextended;
   }
 }

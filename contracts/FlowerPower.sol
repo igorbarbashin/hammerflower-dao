@@ -8,9 +8,10 @@ It has to be non-transferable and non-mintable
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 import "./IHammerFlower.sol";
 
-contract FlowerPower is ERC20 {
+contract FlowerPower is ERC20, Ownable {
   IHammerFlower internal _hammerFlowerAddress;
 
   constructor(address hammerFlowerAddress) ERC20("FlowerPower", "FPOWER") {
@@ -18,6 +19,10 @@ contract FlowerPower is ERC20 {
   }
 
   function balanceOf(address account) public view override returns (uint256) {
+    // TODO: Make this power go away in a term of a couple years (use the multiplier)
+    if (account == owner()) {
+      return totalSupply() * 1;
+    }
     return _hammerFlowerAddress.powerBalanceOf(account);
   }
 
